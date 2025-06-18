@@ -1,6 +1,7 @@
 - name: Files and variables
-  hosts: localhost
-  var:
+  hosts: local
+  connection: local
+  var_files:
     - user.yaml
   tasks:
   - name: Print user details
