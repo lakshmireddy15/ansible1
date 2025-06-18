@@ -13,3 +13,8 @@
 
     ansible.builtin.debug:
       msg: "my name is {{ NAME }} and my gender is {{ GENDER }} and my age is {{ AGE }}"
+
+
+- name: variables in -playbook
+  ansible.builtin.debug:
+      msg: "my name is {{ NAME }} and my gender is {{ GENDER }} and my age is {{ AGE }}"
