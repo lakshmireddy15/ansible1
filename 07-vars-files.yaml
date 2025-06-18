@@ -1,0 +1,8 @@
+- name: Files and variables
+  hosts: localhost
+  var:
+    - user.yaml
+  tasks:
+  - name: Print user details
+    ansible.builtin.debug:
+      msg: "my name is {{ NAME }} and my gender is {{ GENDER }} and my age is {{ AGE }}"
