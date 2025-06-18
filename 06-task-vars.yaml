@@ -11,8 +11,8 @@
   
   - name: Print the local variables
     vars:
-    NAME: reddy
-    AGE:  20
-    GENDER: male
+      NAME: reddy
+      AGE:  20
+      GENDER: male
     ansible.builtin.debug:
       msg: "my name is {{ NAME }} and my gender is {{ GENDER }} and my age is {{ AGE }}"
