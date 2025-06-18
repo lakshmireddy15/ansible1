@@ -6,5 +6,10 @@
     GENDER: female
   tasks:
   - name: variables in -playbook
+    vars:
+      NAME: reddy
+      AGE:  20
+      GENDER: male
+
     ansible.builtin.debug:
       msg: "my name is {{ NAME }} and my gender is {{ GENDER }} and my age is {{ AGE }}"
