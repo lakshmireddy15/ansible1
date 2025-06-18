@@ -1,0 +1,10 @@
+- name: playbook variables
+  hosts: localhost
+  vars:
+    NAME: lakshmi
+    AGE:  26
+    GENDER: female
+  tasks:
+  - name: variables in -playbook
+    ansible.builtin.debug:
+      msg: "my name is {{ NAME }} and my gender is {{ GENDER }} and my age is {{ AGE }}"
