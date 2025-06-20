@@ -1,0 +1,6 @@
+- name: variables from the inventory
+  hosts: frontend
+  tasks:
+  - name: variables from frontend
+    ansible.builtin.debug:
+      msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"

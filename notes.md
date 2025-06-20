@@ -1,21 +1,15 @@
-How to write  playbook variables in a playbook
+How to give variable in the inventory files 
 
-write plays-vars.yaml
+write vars-inventory.yaml
 
-- name: playbook variables
+- name: Varibles from the inventory
   hosts: local
   connection: local
-  vars:
-    NAME: Lakshmi
-    AGE: 24
-    GENDER: Female
   tasks:
-  - name: print the variables
+  - name: print variables from the inventory file
     ansible.builtin.debug:
       msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"
-  - name: print the variables info again
-    ansible.builtin.debug:
-        msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"
+
 
 Write `inventory.ini` file
 
@@ -30,8 +24,11 @@ We can have any number of nodes.
 <node1-privateIP>
 <node2-privateIP>
 
-[local]
-localhost
+[local:vars]
+
+NAME= Lakshmi
+AGE=24
+GENDER=Female
 
 [database]
 <node1-privateIP>
@@ -98,23 +95,19 @@ Fast-forward
  inventory.ini   |  2 +-
  notes.md        | 91 +++++++++----------------------------------------------------------------------------
  3 files changed, 14 insertions(+), 88 deletions(-)
-[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 05-play-vars.yaml
+ 
+ [ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 09-vars-inventory.yaml
 
-PLAY [playbook variables] **********************************************************************************
+PLAY [Varibles from the inventory] ****************************************************************************************************
 
-TASK [Gathering Facts] *************************************************************************************
+TASK [Gathering Facts] ****************************************************************************************************************
 ok: [localhost]
 
-TASK [print the variables] *********************************************************************************
+TASK [print variables from the inventory file] ****************************************************************************************
 ok: [localhost] => {
     "msg": "My name is Lakshmi and my age is 24 and my gender is Female"
 }
 
-TASK [print the variables info again] **********************************************************************
-ok: [localhost] => {
-    "msg": "My name is Lakshmi and my age is 24 and my gender is Female"
-}
-
-PLAY RECAP *************************************************************************************************
-localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+PLAY RECAP ****************************************************************************************************************************
+localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
