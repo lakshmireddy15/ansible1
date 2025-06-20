@@ -1,20 +1,14 @@
 - name: playbook variables
-  hosts: localhost
+  hosts: local
+  connection: local
   vars:
-    NAME: lakshmi
-    AGE:  26
-    GENDER: female
+    NAME: Lakshmi
+    AGE: 24
+    GENDER: Female
   tasks:
-  - name: variables in -playbook
-    vars:
-      NAME: reddy
-      AGE:  20
-      GENDER: male
-
+  - name: print the variables
     ansible.builtin.debug:
-      msg: "my name is {{ NAME }} and my gender is {{ GENDER }} and my age is {{ AGE }}"
-
-
-  - name: variables in local play
+      msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"
+  - name: print the variables info again
     ansible.builtin.debug:
-       msg: "my name is {{ NAME }} and my gender is {{ GENDER }} and my age is {{ AGE }}"
+        msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"
