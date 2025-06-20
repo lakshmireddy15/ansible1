@@ -1,9 +1,9 @@
-- name: Files and variables
+- name: variables from the files  
   hosts: local
   connection: local
   vars_files:
-    - user.yaml
+    -user.yaml
   tasks:
-  - name: Print user details
+  - name: print the user info
     ansible.builtin.debug:
-      msg: "my name is {{ NAME }} and my gender is {{ GENDER }} and my age is {{ AGE }}"
+      msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"
