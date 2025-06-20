@@ -1,18 +1,18 @@
-- name: tasks and multiple variables
-  hosts: localhost
+- name: Tasks and variable
+  hosts: local
+  connection: local
   vars:
-    NAME: lakshmi
-    AGE:  20
-    GENDER: female
+    NAME: Lakshmi
+    AGE: 24
+    GENDER: Female
   tasks:
-  - name: print the global variables
+  - name: printing global variables
     ansible.builtin.debug:
-      msg: "my name is {{ NAME }} and my gender is {{ GENDER }} and my age is {{ AGE }}"
-  
-  - name: Print the local variables
+      msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"
+  - name: printing local variables
     vars:
-      NAME: reddy
-      AGE:  20
-      GENDER: male
+    NAME: Reddy
+    AGE: 25
+    GENDER: male
     ansible.builtin.debug:
-      msg: "my name is {{ NAME }} and my gender is {{ GENDER }} and my age is {{ AGE }}"
+      msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"

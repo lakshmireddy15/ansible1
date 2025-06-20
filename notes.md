@@ -1,24 +1,21 @@
-How to write multiple plays in a playbook
+How to write  playbook variables in a playbook
 
-write multi-plays.yaml
+write plays-vars.yaml
 
-- name: Play1
+- name: playbook variables
   hosts: local
   connection: local
+  vars:
+    NAME: Lakshmi
+    AGE: 24
+    GENDER: Female
   tasks:
-  - name: Task 1 and play 1
-    msg: " This is Task 1 and Play 1"
-  - name: Task 1 and play 2
-    msg: " This is Task 1 and Play 2"
-
-- name: Play2
-  hosts: local
-  connection: local
-  tasks:
-  - name: Task 2 and play 1
-    msg: " This is Task 2 and Play 1"
-  - name: Task 2 and play 2
-    msg: " This is Task 2 and Play 2"
+  - name: print the variables
+    ansible.builtin.debug:
+      msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"
+  - name: print the variables info again
+    ansible.builtin.debug:
+        msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"
 
 Write `inventory.ini` file
 
@@ -101,85 +98,23 @@ Fast-forward
  inventory.ini   |  2 +-
  notes.md        | 91 +++++++++----------------------------------------------------------------------------
  3 files changed, 14 insertions(+), 88 deletions(-)
+[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 05-play-vars.yaml
 
-[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 04-multi-plays.yaml
-ERROR! this task 'msg' has extra params, which is only allowed in the following modules: ansible.builtin.script, ansible.legacy.import_role, ansible.windows.win_command, raw, ansible.legacy.group_by, ansible.legacy.script, ansible.builtin.win_command, win_shell, ansible.legacy.raw, ansible.builtin.add_host, group_by, ansible.builtin.meta, ansible.builtin.win_shell, ansible.builtin.shell, ansible.builtin.include, ansible.legacy.import_tasks, add_host, ansible.legacy.include_role, include_vars, ansible.legacy.win_command, meta, include, import_tasks, ansible.legacy.command, ansible.builtin.include_tasks, ansible.legacy.shell, ansible.windows.win_shell, ansible.legacy.include, ansible.legacy.include_tasks, ansible.builtin.raw, ansible.builtin.command, ansible.builtin.import_tasks, ansible.legacy.add_host, ansible.legacy.include_vars, command, ansible.legacy.win_shell, win_command, import_role, ansible.legacy.meta, script, include_role, set_fact, ansible.builtin.group_by, shell, ansible.builtin.include_vars, ansible.legacy.set_fact, include_tasks, ansible.builtin.include_role, ansible.builtin.set_fact, ansible.builtin.import_role
-
-The error appears to be in '/home/ec2-user/ansible1/04-multi-plays.yaml': line 5, column 5, but may
-be elsewhere in the file depending on the exact syntax problem.
-
-The offending line appears to be:
-
-  tasks:
-  - name: Task 1 and play 1
-    ^ here
-
-
-ERROR:
-
-Here i forgot to mention ansible builtin funtion to prit the output
-
-below is the tatest file:
-
-- name: Play1
-  hosts: local
-  connection: local
-  tasks:
-  - name: Task 1 and play 1
-    ansible.builtin.debug:
-      msg: " This is Task 1 and Play 1"
-  - name: Task 1 and play 2
-    ansible.builtin.debug:
-      msg: " This is Task 1 and Play 2"
-
-- name: Play2
-  hosts: local
-  connection: local
-  tasks:
-  - name: Task 2 and play 1
-    ansible.builtin.debug:
-      msg: " This is Task 2 and Play 1"
-  - name: Task 2 and play 2
-    ansible.builtin.debug:
-      msg: " This is Task 2 and Play 2"
-
-Note: After doing any changes in file we need to do git add and git pull same like above
-$ git add . ; git commit -m "ansible" ; git push origin main
-mobaxterM:
-git pull
-ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 04-multi-plays.yaml
-
-
-PLAY [Play1] ***********************************************************************************************
+PLAY [playbook variables] **********************************************************************************
 
 TASK [Gathering Facts] *************************************************************************************
 ok: [localhost]
 
-TASK [Task 1 and play 1] ***********************************************************************************
+TASK [print the variables] *********************************************************************************
 ok: [localhost] => {
-    "msg": " This is Task 1 and Play 1"
+    "msg": "My name is Lakshmi and my age is 24 and my gender is Female"
 }
 
-TASK [Task 1 and play 2] ***********************************************************************************
+TASK [print the variables info again] **********************************************************************
 ok: [localhost] => {
-    "msg": " This is Task 1 and Play 2"
-}
-
-PLAY [Play2] ***********************************************************************************************
-
-TASK [Gathering Facts] *************************************************************************************
-ok: [localhost]
-
-TASK [Task 2 and play 1] ***********************************************************************************
-ok: [localhost] => {
-    "msg": " This is Task 2 and Play 1"
-}
-
-TASK [Task 2 and play 2] ***********************************************************************************
-ok: [localhost] => {
-    "msg": " This is Task 2 and Play 2"
+    "msg": "My name is Lakshmi and my age is 24 and my gender is Female"
 }
 
 PLAY RECAP *************************************************************************************************
-localhost                  : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
