@@ -3,15 +3,19 @@
   connection: local
   tasks:
   - name: Task 1 and play 1
-    msg: " This is Task 1 and Play 1"
+    ansible.builtin.dubug:
+      msg: " This is Task 1 and Play 1"
   - name: Task 1 and play 2
-    msg: " This is Task 1 and Play 2"
+    ansible.builtin.dubug:
+      msg: " This is Task 1 and Play 2"
 
 - name: Play2
   hosts: local
   connection: local
   tasks:
   - name: Task 2 and play 1
-    msg: " This is Task 2 and Play 1"
+    ansible.builtin.dubug:
+      msg: " This is Task 2 and Play 1"
   - name: Task 2 and play 2
-    msg: " This is Task 2 and Play 2"
+    ansible.builtin.dubug:
+      msg: " This is Task 2 and Play 2"
