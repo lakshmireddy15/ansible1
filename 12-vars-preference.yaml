@@ -1,8 +1,8 @@
 - name: Understanding the variable preferences
   hosts: local
   connection: local
-  vars:
-    GREETING: "Hello from PLAY"
+  # vars:
+  #   GREETING: "Hello from PLAY"
   # vars_files:
   # - user.yaml
   # vars_prompt:
