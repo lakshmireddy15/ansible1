@@ -1,31 +1,9 @@
-Now we will understand variable preference 
-ex: we are using name variables in multiple places like in files, in playbooks...
-so we don't which is having 1st prefernces
+gathering facts in anisble:
 
-craete user.yaml file and add some variables
-NAME:  reddy
-AGE:  20
-GENDER: male
-GREETING: "Hello from file"
-
-craete vars-prefernce.yaml
-- name: Understanding the variable preferences
+- name: conditions
   hosts: local
   connection: local
-  vars:
-    GREETING: "Hello from PLAY"
-  vars_files:
-  - user.yaml
-  vars_prompt:
-  - name: GREETING
-    prompt: Please enter the gretting
-    private: false
-  tasks:
-  - name: print the greeting
-    vars:
-      GREETING: "Hello from TASK"
-    ansible.builtin.debug:
-      msg: "Hello greeting from task {{ GREETING }}"
+  
 
 
 Write `inventory.ini` file
@@ -34,19 +12,14 @@ We can have any number of nodes.
 
 ```ini
 [frontend]
-<node1-privateIP> 172.31.85.223 NAME= Lakshmi AGE=24 GENDER=Female
-<node2-privateIP>
+<node1-privateIP> ansible_user=ec2-user ansible_password=DevOps321
+<node2-privateIP> 
 
 [backend]
 <node1-privateIP>
 <node2-privateIP>
 
 [local:vars]
-
-NAME= Lakshmi
-AGE=24
-GENDER=Female
-GREETING="Hello from the inventory"
 
 [database]
 <node1-privateIP>
@@ -114,48 +87,24 @@ Fast-forward
  notes.md        | 91 +++++++++----------------------------------------------------------------------------
  3 files changed, 14 insertions(+), 88 deletions(-)
  
- ERROR: we are getting undefined variuable beacuse we commited local variable 
+[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini 14-conditions.yaml
 
- 3.91.62.36 | 172.31.93.59 | t2.micro | https://github.com/lakshmireddy15/ansible1.git
-[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini 11-vars-args.yaml
-
-PLAY [Varibles from the inventory] ****************************************************************************************************
+PLAY [conditions] *********************************************************************************************************************
 
 TASK [Gathering Facts] ****************************************************************************************************************
 ok: [localhost]
 
-TASK [print variables from the inventory file] ****************************************************************************************
-fatal: [localhost]: FAILED! => {"msg": "The task includes an option with an undefined variable. The error was: 'NAME' is undefined. 'NAME' is undefined\n\nThe error appears to be in '/home/ec2-user/ansible1/11-vars-args.yaml': line 5, column 5, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n  tasks:\n  - name: print variables from the inventory file\n    ^ here\n"}
-
-PLAY RECAP ****************************************************************************************************************************
-localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
-
-solution:
-now we can pass aggruments from the command line using -e to pass aggruments.
-After done any changes we need pull the latest code
-bash:
-git add . ; git commit -m "ansible" ; git push origin main
-
-mobaxterm:
-git pull
-
-[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini 11-vars-args.yaml -e "NAME=Lakshmi"  -e "AGE=24"  -e "GENDER=Female"
-
-PLAY [Varibles from the inventory] ****************************************************************************************************
-
-TASK [Gathering Facts] ****************************************************************************************************************
-ok: [localhost]
-
-TASK [print variables from the inventory file] ****************************************************************************************
+TASK [Given number is greater than 30] ************************************************************************************************
 ok: [localhost] => {
-    "msg": "My name is Lakshmi and my age is 24 and my gender is Female"
+    "msg": "Given Number is 39 is greater than 30"
 }
 
+TASK [Given number is less than 30] ***************************************************************************************************
+skipping: [localhost]
+
 PLAY RECAP ****************************************************************************************************************************
-localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
 
+ansible-playbook -i inventory.ini 15-gather-facts.yaml
 
-3.91.62.36 | 172.31.93.59 | t2.micro | https://github.com/lakshmireddy15/ansible1.git
-[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$
-
-
+It will all facts
