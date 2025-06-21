@@ -1,6 +1,6 @@
-How to give variable in the inventory files 
+How to give variable in the command line
 
-write vars-inventory.yaml
+write vars-args.yaml
 
 - name: Varibles from the inventory
   hosts: local
@@ -17,18 +17,18 @@ We can have any number of nodes.
 
 ```ini
 [frontend]
-<node1-privateIP>
+<node1-privateIP> 172.31.85.223 NAME= Lakshmi AGE=24 GENDER=Female
 <node2-privateIP>
 
 [backend]
 <node1-privateIP>
 <node2-privateIP>
 
-[local:vars]
+; [local:vars]
 
-NAME= Lakshmi
-AGE=24
-GENDER=Female
+; NAME= Lakshmi
+; AGE=24
+; GENDER=Female
 
 [database]
 <node1-privateIP>
@@ -96,7 +96,26 @@ Fast-forward
  notes.md        | 91 +++++++++----------------------------------------------------------------------------
  3 files changed, 14 insertions(+), 88 deletions(-)
  
- [ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 09-vars-inventory.yaml
+ ERROR: we are getting undefined variuable beacuse we commited local variable 
+
+ 3.91.62.36 | 172.31.93.59 | t2.micro | https://github.com/lakshmireddy15/ansible1.git
+[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini 11-vars-args.yaml
+
+PLAY [Varibles from the inventory] ****************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************
+ok: [localhost]
+
+TASK [print variables from the inventory file] ****************************************************************************************
+fatal: [localhost]: FAILED! => {"msg": "The task includes an option with an undefined variable. The error was: 'NAME' is undefined. 'NAME' is undefined\n\nThe error appears to be in '/home/ec2-user/ansible1/11-vars-args.yaml': line 5, column 5, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n  tasks:\n  - name: print variables from the inventory file\n    ^ here\n"}
+
+PLAY RECAP ****************************************************************************************************************************
+localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
+solution:
+now we can pass aggruments from the command line using -e to pass aggruments
+
+[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini 11-vars-args.yaml -e "NAME=Lakshmi"  -e "AGE=24"  -e "GENDER=Female"
 
 PLAY [Varibles from the inventory] ****************************************************************************************************
 
@@ -110,4 +129,9 @@ ok: [localhost] => {
 
 PLAY RECAP ****************************************************************************************************************************
 localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+3.91.62.36 | 172.31.93.59 | t2.micro | https://github.com/lakshmireddy15/ansible1.git
+[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$
+
 
