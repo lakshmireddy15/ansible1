@@ -1,0 +1,18 @@
+- name: ansible Data types
+  hosts: local
+  connection: local
+  vars:
+    NAME: lakshmi
+    AGE: 26
+    IS_TRUE: true
+    TOOLS: # list
+    - linux
+    - shell
+    - ansible
+    CONCEPTS: #map
+      CICD:
+      SCRIPTING: "shell,ansibel,linux"
+  tasks:
+  - name: Printing the data types in ansible
+    ansible.builtin.debug:
+      msg: "my name is {{ NAME }}, age is {{ AGE }}, is true is {{IS_TRUE }}, Tolls learned {{ TOOLS }}, and concepts {{ CONCEPTS  }}"
