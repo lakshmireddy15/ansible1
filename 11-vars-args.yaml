@@ -1,0 +1,7 @@
+- name: Varibles from the inventory
+  hosts: local
+  connection: local
+  tasks:
+  - name: print variables from the inventory file
+    ansible.builtin.debug:
+      msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"
