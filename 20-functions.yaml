@@ -39,3 +39,9 @@
       name: "LAKSHMI"
     ansible.builtin.debug:
       msg: "{{ name | lower }}"
+
+  - name: check given ip is vaild oor not
+    vars:
+      ip: "189.0.0.0"
+    ansible.builtin.debug:
+      msg: "{{ ip |ansible.utils.ipaddr }}"
