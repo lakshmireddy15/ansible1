@@ -1,9 +1,22 @@
-gathering facts in anisble:
+if there are no modules avaialble
+1.develop your own module
+2.use shell or command line
 
-- name: conditions
-  hosts: local
-  connection: local
-  
+shell vs Command:
+Shell module: If your are using shell module your logging inside the server and ruinning the tasks. It conatin redirects,variabiles...
+
+command module:
+executing command from ouside. you will not get any linux full environement redirections piping and variables will not work here
+
+
+write shell-command.yaml
+
+- name: shell vs command
+  hosts: frontend
+  tasks:
+  - name: redirects ls output to a file
+    #ansible.builtin.command: "ls -ltr > /tmp/output.txt"
+    ansible.builtin.shell: "ls -ltr > /tmp/output.txt"
 
 
 Write `inventory.ini` file
@@ -87,24 +100,33 @@ Fast-forward
  notes.md        | 91 +++++++++----------------------------------------------------------------------------
  3 files changed, 14 insertions(+), 88 deletions(-)
  
-[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini 14-conditions.yaml
+Errors: 
+beacause command line redirections are not working
 
-PLAY [conditions] *********************************************************************************************************************
+[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini 21-shell-command.yaml
+
+PLAY [shell vs command] ***************************************************************************************************************
 
 TASK [Gathering Facts] ****************************************************************************************************************
-ok: [localhost]
+ok: [172.31.85.223]
 
-TASK [Given number is greater than 30] ************************************************************************************************
-ok: [localhost] => {
-    "msg": "Given Number is 39 is greater than 30"
-}
-
-TASK [Given number is less than 30] ***************************************************************************************************
-skipping: [localhost]
+TASK [redirects ls output to a file] **************************************************************************************************
+fatal: [172.31.85.223]: FAILED! => {"changed": true, "cmd": ["ls", "-ltr", ">", "/tmp/output.txt"], "delta": "0:00:00.007431", "end": "2025-06-21 17:10:11.738259", "msg": "non-zero return code", "rc": 2, "start": "2025-06-21 17:10:11.730828", "stderr": "ls: cannot access '>': No such file or directory\nls: cannot access '/tmp/output.txt': No such file or directory", "stderr_lines": ["ls: cannot access '>': No such file or directory", "ls: cannot access '/tmp/output.txt': No such file or directory"], "stdout": "", "stdout_lines": []}
 
 PLAY RECAP ****************************************************************************************************************************
-localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+172.31.85.223              : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
 
-ansible-playbook -i inventory.ini 15-gather-facts.yaml
+solution:
+[ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini 21-shell-command.yaml
 
-It will all facts
+PLAY [shell vs command] ***************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************
+ok: [172.31.85.223]
+
+TASK [redirects ls output to a file] **************************************************************************************************
+changed: [172.31.85.223]
+
+PLAY RECAP ****************************************************************************************************************************
+172.31.85.223              : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
