@@ -1,14 +1,31 @@
-How to give variable in the command line
+Now we will understand variable preference 
+ex: we are using name variables in multiple places like in files, in playbooks...
+so we don't which is having 1st prefernces
 
-write vars-args.yaml
+craete user.yaml file and add some variables
+NAME:  reddy
+AGE:  20
+GENDER: male
+GREETING: "Hello from file"
 
-- name: Varibles from the inventory
+craete vars-prefernce.yaml
+- name: Understanding the variable preferences
   hosts: local
   connection: local
+  vars:
+    GREETING: "Hello from PLAY"
+  vars_files:
+  - user.yaml
+  vars_prompt:
+  - name: GREETING
+    prompt: Please enter the gretting
+    private: false
   tasks:
-  - name: print variables from the inventory file
+  - name: print the greeting
+    vars:
+      GREETING: "Hello from TASK"
     ansible.builtin.debug:
-      msg: "My name is {{ NAME }} and my age is {{ AGE }} and my gender is {{ GENDER }}"
+      msg: "Hello greeting from task {{ GREETING }}"
 
 
 Write `inventory.ini` file
@@ -24,11 +41,12 @@ We can have any number of nodes.
 <node1-privateIP>
 <node2-privateIP>
 
-; [local:vars]
+[local:vars]
 
-; NAME= Lakshmi
-; AGE=24
-; GENDER=Female
+NAME= Lakshmi
+AGE=24
+GENDER=Female
+GREETING="Hello from the inventory"
 
 [database]
 <node1-privateIP>
@@ -113,7 +131,13 @@ PLAY RECAP *********************************************************************
 localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
 
 solution:
-now we can pass aggruments from the command line using -e to pass aggruments
+now we can pass aggruments from the command line using -e to pass aggruments.
+After done any changes we need pull the latest code
+bash:
+git add . ; git commit -m "ansible" ; git push origin main
+
+mobaxterm:
+git pull
 
 [ ec2-user@ip-172-31-93-59 ~/ansible1 ]$ ansible-playbook -i inventory.ini 11-vars-args.yaml -e "NAME=Lakshmi"  -e "AGE=24"  -e "GENDER=Female"
 
